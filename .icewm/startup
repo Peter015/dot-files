@@ -1,7 +1,10 @@
 #!/bin/sh
 
+# if there is a monitor plugged in configure it to be on the left of the laptop
+bash ~/.config/lauchers/monitor_detection_script.sh
+
 #Draw background with icebg
-icewmbg --image=/home/peterz/Picures/Wallpapers/1920x1080.jpg
+icewmbg -i=!/home/peterz/Picures/Wallpapers
 
 # Start the first polkit agent that exists
 for i in /usr/lib/polkit-gnome-authentication-agent-1 \
