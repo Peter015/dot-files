@@ -1,7 +1,8 @@
 #!/bin/sh
 
+DISPLAY=:0.0
 # if there is a monitor plugged in configure it to be on the left of the laptop
-bash ~/.config/lauchers/monitor_detection_script.sh
+bash /home/peterz/.config/launchers/monitor_detection_script.sh
 
 #Draw background with icebg
 icewmbg -i=!/home/peterz/Picures/Wallpapers
@@ -26,5 +27,5 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
             dbus-update-activation-environment --systemd --all
 fi
 
-#start plank
-plank
+#activate dock
+plank &
