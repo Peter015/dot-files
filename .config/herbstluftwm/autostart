@@ -180,6 +180,7 @@ hc set tree_style '╾│ ├└╼─┐'
 hc unlock
 
 # do multi monitor setup here:
+herbstclient detect_monitors
 bash /home/peterz/.config/launchers/monitor_detection_script.sh
 
 # find the panel
