@@ -10,3 +10,5 @@ alias grep='rg'
 alias cat='bat'
 alias config='/usr/bin/git --git-dir=/home/peterz/.cfg/ --work-tree=/home/peterz'
 
+# opam configuration
+source /home/peterz/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
