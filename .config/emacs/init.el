@@ -11,10 +11,16 @@
 (setq use-package-always-ensure 't)
 
 ;; installing packages
+
+;; evil mode
 (use-package evil
     :config
     (evil-mode 1)
     (evil-set-initial-state 'NeoTree 'emacs))
+
+;; treesitter packages
+(use-package tree-sitter)
+(use-package tree-sitter-langs)
 
 ;; settings
 (setq inhibit-startup-message t
@@ -37,6 +43,10 @@
 
 ;; ivy configuration
 
+
+;; treesitter
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; sets up slime, common lisp IDE based on emacs
 (load (expand-file-name "~/.quicklisp/slime-helper.el"))
