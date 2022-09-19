@@ -9,6 +9,8 @@ alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias grep='rg'
 alias cat='bat'
 alias config='/usr/bin/git --git-dir=/home/peterz/.cfg/ --work-tree=/home/peterz'
+alias sbcl='rlwrap sbcl'
+
 
 # opam configuration
 source /home/peterz/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
