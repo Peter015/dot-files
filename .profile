@@ -12,23 +12,9 @@ export EDITOR=/usr/bin/helix
 # For some news readers it makes sense to specify the NEWSSERVER variable here
 #export NEWSSERVER=your.news.server
 
-# Some people don't like fortune. If you uncomment the following lines,
-# you will have a fortune each time you log in ;-)
 
-if [ -x /usr/bin/fortune ] ; then
-    echo
-    /usr/bin/fortune
-    echo
-fi
+export XDG_DATA_DIRS="/home/your_user/.nix-profile/share:$XDG_DATA_DIRS"
 
-
-
-if [ -e /home/peterz/.nix-profile/etc/profile.d/nix.sh ]; then . /home/peterz/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-
-# add the nix to XIR_DATA_DIRS to have access to .desktop files
-export XDG_DATA_DIRS="$HOME/.nix-profile/share:${XDG_DATA_DIRS}"
-
-export PATH="$PATH:/home/peterz/julia-1.8.0/bin"
 
 export GOPATH=/home/peterz/Go/libs
 export PATH="$PATH:$GOPATH/bin"
