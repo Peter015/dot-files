@@ -18,19 +18,6 @@
     (evil-mode 1)
     (evil-set-initial-state 'NeoTree 'emacs))
 
-;; treesitter packages
-(use-package tree-sitter)
-(use-package tree-sitter-langs)
-
-;; lsp
-(use-package eglot)
-
-;; merlin for ocaml
-(use-package merlin)
-
-;; parens
-(use-package paredit)
-
 (use-package parinfer-rust-mode
   :hook emacs-lisp-mode) 
 
@@ -88,11 +75,7 @@
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 
 ;; set the theme
-(use-package sublime-themes)
-(use-package tron-legacy-theme
-  :config
-  (load-theme 'tron-legacy t))
-
+(load-theme 'tron-legacy t)
 ;; neotree theme
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
