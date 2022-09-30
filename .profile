@@ -7,7 +7,7 @@ test -z "$PROFILEREAD" && . /etc/profile || true
 # Some applications read the EDITOR variable to determine your favourite text
 # editor. So uncomment the line below and enter the editor of your choice :-)
 
-export EDITOR=/usr/bin/helix
+export EDITOR=hx
 
 # For some news readers it makes sense to specify the NEWSSERVER variable here
 #export NEWSSERVER=your.news.server
