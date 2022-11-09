@@ -5,6 +5,16 @@
 # Read `man 5 sway` for a complete reference.
 
 
+### gaps and opacity
+
+# opacity
+set $opacity 0.9
+for_window [class=".*"] opacity $opacity
+for_window [app_id=".*"] opacity $opacity
+
+# gaps
+gaps inner 10
+
 ### autostart
 exec foot --server
 
@@ -32,10 +42,9 @@ set $menu fuzzel
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /run/current-system/sw/share/backgrounds/sway/)
-output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
+output * bg $HOME/Pictures/wallpapers/Sway_Wallpaper_Blue_1920x1080.png fill
+
+
 output HDMI-A-1 resolution 1920x1080 position 0,0
 output eDP-1 resolution 1920x1080 position 1920,0
 # You can get the names of your outputs by running: swaymsg -t get_outputs
@@ -64,6 +73,9 @@ exec swayidle -w \
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+    
+    # Start alacritty
+    bindsym $mod+Shift+Return exec alacritty
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -72,8 +84,8 @@ exec swayidle -w \
     bindsym $mod+d exec $menu
     
     # Take a sceenshot
-    bindsym $mod+s grim /home/peterz/Pictures/Screenshots/$(date '+%F_%T').png
-    bindsym $mod+Shift+s slurp | grim /home/peterz/Pictures/Screenshots/$(date '+%F_%T').png
+    bindsym $mod+s grim "$HOME/Pictures/Screenshots/$(date '+%y%m%d_%H-%M-%S').png"
+    bindsym $mod+Shift+s grim -g "$(slurp)" "$HOME/Pictures/Screenshots/$(date '+%F_%T').png"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.

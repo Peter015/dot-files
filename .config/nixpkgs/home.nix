@@ -5,7 +5,7 @@
     # paths it should manage.
     home.username = "peterz";
     home.homeDirectory = "/home/peterz";
-  
+
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
     # when a new Home Manager release introduces backwards
@@ -14,58 +14,61 @@
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    home.stateVersion = "22.05";
+   home.stateVersion = "22.05";
 
     programs.fish = {
         enable = true;
-        plugins = [
-            {
-                name = "z";
-                src = pkgs.fetchFromGitHub {
-                    owner = "jethrokuan";
-                    repo = "z";
-                    rev = "e0e1b9dfdba362f8ab1ae8c1afc7ccf62b89f7eb";
-                    sha256 = "0dbnir6jbwjpjalz14snzd3cgdysgcs3raznsijd6savad3qhijc";
-                };
-            }
-            
-            # { name = "grc"; src = pkgs.fishPlugins.grc; }
-            { name = "pure"; src = pkgs.fishPlugins.pure; }
-        ];
-        
+
         interactiveShellInit = "starship init fish | source";
-        
+
         shellAliases = {
-            
-        };     
-    };    
-    
-    
-    
+            # exa not ls
+            ll = "exa -al --color=always --group-directories-first";
+            la = "exa -a --color=always --group-directories-first";
+            ls = "exa -l --color=always --group-directories-first";
+            lt = "exa -aT --color=always --group-directories-first";
+
+            # ripgrep and not grep
+            grep = "rg";
+
+            # bat not cat
+            cat = "bat";
+                        
+            #Improve SBCL Repl
+            sbcl = "rlwrap -c sbcl";
+        };
+    };
+
+
     programs.emacs = {
         enable = true;
-        # extraPackages = (
-            # epkgs: (with epkgs; [
-                # nix-mode
-                # magit
-                # tree-sitter
-                # tree-sitter-langs
-                # paredit
-                # tron-legacy-theme
-                # eglot
-                # merlin
-                # rust-mode
-            # ])
-        # );
+        extraPackages = (
+            epkgs: (with epkgs; [
+                nix-mode
+                tree-sitter
+                tree-sitter-langs
+                eglot
+                neotree
+                use-package
+                all-the-icons
+                slime
+                sublime-themes
+                color-theme-solarized
+                modus-themes
+                tide
+                company
+                flycheck
+                monokai-pro-theme
+            ])
+        );
     };
-    
+
     programs.git = {
         enable = true;
         userName = "Peter Zimmermann";
         userEmail = "pzimm30@gmail.com";
     };
-  
+
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
 }
-
