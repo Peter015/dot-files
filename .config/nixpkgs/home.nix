@@ -33,7 +33,7 @@
 
             # bat not cat
             cat = "bat";
-                        
+
             #Improve SBCL Repl
             sbcl = "rlwrap -c sbcl";
         };
@@ -59,6 +59,8 @@
                 company
                 flycheck
                 monokai-pro-theme
+                tide
+                web-mode
             ])
         );
     };
