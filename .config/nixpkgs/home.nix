@@ -61,6 +61,10 @@
                 monokai-pro-theme
                 tide
                 web-mode
+                paredit
+                smartparens
+                rainbow-delimiters
+                pdf-tools
             ])
         );
     };
@@ -69,6 +73,21 @@
         enable = true;
         userName = "Peter Zimmermann";
         userEmail = "pzimm30@gmail.com";
+    };
+
+    # desktop entries
+    xdg.desktopEntries = {
+        pcmanfm = {
+            type = "Application";
+            name = "File Manager PCManFM";
+            genericName = "File Manager";
+            exec = "pcmanfm %U";
+            icon = ~/Pictures/desktop-icons/png-clipart-next-folders-icon-blank-blue-folder-icon.png;
+            categories = [ "System" "FileTools" "FileManager" "Utility" "Core" "GTK" ];
+            startupNotify = true;
+            terminal = false;
+            mimeType = [ "inode/directory" ];
+        };
     };
 
     # Let Home Manager install and manage itself.

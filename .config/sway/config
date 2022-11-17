@@ -17,6 +17,7 @@ gaps inner 10
 
 ### autostart
 exec foot --server
+exec solaar --window hide
 
 
 # Set font
@@ -42,7 +43,7 @@ set $menu fuzzel
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /run/current-system/sw/share/backgrounds/sway/)
-output * bg $HOME/Pictures/wallpapers/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg $HOME/Pictures/Wallpapers/Sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 
 output HDMI-A-1 resolution 1920x1080 position 0,0
@@ -226,6 +227,7 @@ bar {
         background #323232
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
-}
+}   
+
 
 include /etc/sway/config.d/*
