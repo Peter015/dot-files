@@ -1,1 +1,0 @@
-("~/Projects/snowmow-web/" "~/Projects/CSCS1240F22/")
