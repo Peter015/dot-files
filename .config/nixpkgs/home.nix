@@ -48,23 +48,31 @@
                 tree-sitter
                 tree-sitter-langs
                 eglot
-                neotree
-                use-package
                 all-the-icons
-                slime
-                sublime-themes
-                color-theme-solarized
-                modus-themes
                 tide
-                company
                 flycheck
                 monokai-pro-theme
-                tide
-                web-mode
                 paredit
-                smartparens
                 rainbow-delimiters
-                pdf-tools
+                highlight-indent-guides
+                php-mode
+                slime
+                dashboard
+                company
+                projectile
+                ivy
+                counsel
+                swiper
+                which-key
+                magit
+                counsel-projectile
+                markdown-mode
+                ivy-rich
+                circadian
+                fsharp-mode
+                anaconda-mode
+                company-anaconda
+                sudo-edit
             ])
         );
     };
@@ -75,20 +83,8 @@
         userEmail = "pzimm30@gmail.com";
     };
 
-    # desktop entries
-    xdg.desktopEntries = {
-        pcmanfm = {
-            type = "Application";
-            name = "File Manager PCManFM";
-            genericName = "File Manager";
-            exec = "pcmanfm %U";
-            icon = ~/Pictures/desktop-icons/png-clipart-next-folders-icon-blank-blue-folder-icon.png;
-            categories = [ "System" "FileTools" "FileManager" "Utility" "Core" "GTK" ];
-            startupNotify = true;
-            terminal = false;
-            mimeType = [ "inode/directory" ];
-        };
-    };
+
+
 
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;

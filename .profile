@@ -16,9 +16,3 @@ export EDITOR=hx
 export XDG_DATA_DIRS="/home/your_user/.nix-profile/share:$XDG_DATA_DIRS"
 
 
-export GOPATH=/home/peterz/Go/libs
-export PATH="$PATH:$GOPATH/bin"
-export GOPATH="$GOPATH:/home/peterz/Go/code"
-
-
-
