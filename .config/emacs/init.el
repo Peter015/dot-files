@@ -157,12 +157,6 @@
 
 (add-hook 'prog-mode-hook  'highlight-indent-guides-mode)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-(add-hook 'lisp-mode-hook '(lambda ()
-                             (unless (get-process "SLIME Lisp")
-                               (let ((oldbuff (current-buffer)))
-                                 (slime)
-                                 (switch-buffer oldbuff)))))
 		  
 (add-hook 'slime-mode-hook      (lambda() (local-set-key (kbd "C-l") 'slime-repl-clear-buffer)))
 (add-hook 'slime-repl-mode-hook (lambda() (local-set-key (kbd "C-l") 'slime-repl-clear-buffer)))
@@ -190,21 +184,3 @@
 
 (add-hook 'emacs-startup-hook (lambda () (setq file-name-handler-alist startup/file-name-handler-alist)))
 (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000)))
-
-
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(circadian which-key use-package tree-sitter-langs tide slime rainbow-delimiters php-mode paredit page-break-lines nix-mode monokai-pro-theme markdown-mode magit ivy-rich highlight-indent-guides focus eglot dashboard counsel-projectile company all-the-icons)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

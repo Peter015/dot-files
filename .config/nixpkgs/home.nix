@@ -74,7 +74,6 @@
                 fsharp-mode
                 anaconda-mode
                 company-anaconda
-                sudo-edit
                 vala-mode
                 neotree
                 minimap
