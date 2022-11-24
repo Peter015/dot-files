@@ -36,6 +36,9 @@
 
             #Improve SBCL Repl
             sbcl = "rlwrap -c sbcl";
+
+            # dot-files alias
+            config = "git --git-dir=/home/peterz/.cfg/ --work-tree=~";
         };
     };
 
@@ -68,11 +71,15 @@
                 counsel-projectile
                 markdown-mode
                 ivy-rich
-                circadian
                 fsharp-mode
                 anaconda-mode
                 company-anaconda
                 sudo-edit
+                vala-mode
+                neotree
+                minimap
+                undo-tree
+                darkroom
             ])
         );
     };

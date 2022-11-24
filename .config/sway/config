@@ -218,7 +218,7 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
+    position bottom
     
     status_command bash ~/.config/sway/bar.sh
             
@@ -227,7 +227,18 @@ bar {
         background #323232
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
-}   
+    tray_output none
+}
+
+bar {
+    position top
+    
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
+}
 
 
 include /etc/sway/config.d/*
