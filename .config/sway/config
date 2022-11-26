@@ -17,8 +17,6 @@ gaps inner 10
 
 ### autostart
 exec foot --server
-exec solaar --window hide
-
 
 # Set font
 font pango:Liberation Sans SemiBold 10
@@ -76,7 +74,10 @@ exec swayidle -w \
     bindsym $mod+Return exec $term
     
     # Start alacritty
-    bindsym $mod+Shift+Return exec alacritty
+    bindsym $mod+Shift+Return exec kitty
+    
+    # emacs
+    bindsym $mod+Ctrl+e exec emacs
 
     # Kill focused window
     bindsym $mod+Shift+q kill

@@ -55,11 +55,11 @@
                 tide
                 flycheck
                 monokai-pro-theme
-                paredit
+                smartparens
                 rainbow-delimiters
                 highlight-indent-guides
                 php-mode
-                slime
+                sly
                 dashboard
                 company
                 projectile
@@ -71,14 +71,14 @@
                 counsel-projectile
                 markdown-mode
                 ivy-rich
-                fsharp-mode
                 anaconda-mode
                 company-anaconda
-                vala-mode
-                neotree
                 minimap
                 undo-tree
                 darkroom
+                racket-mode
+                smart-mode-line
+                auto-compile
             ])
         );
     };
