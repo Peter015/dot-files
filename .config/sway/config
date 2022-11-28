@@ -16,6 +16,7 @@ for_window [app_id=".*"] opacity $opacity
 gaps inner 10
 
 ### autostart
+exec mako
 exec foot --server
 
 # Set font
@@ -221,7 +222,7 @@ bindsym $mod+r mode "resize"
 bar {
     position bottom
     
-    status_command bash ~/.config/sway/bar.sh
+    status_command exec ~/.config/sway/bar.sh
             
     colors {
         statusline #ffffff

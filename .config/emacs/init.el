@@ -3,32 +3,18 @@
 (setq load-prefer-newer t)
 (auto-compile-on-save-mode)
 
-;; speed up startup -- undone in a hook at end of file
+;; Speed up startup -- undone in a Hook at end of file
 (setq gc-cons-threshold 100000000)
 (defvar startup/file-name-handler-alist file-name-handler-alist) ; used later in the hook to reset file-name-handler-alist
 (setq file-name-handler-alist nil)
 
-;; ivy
+;; Ivy
 (ivy-mode 1)
 (ivy-rich-mode 1)
 
 ;; which key
 (which-key-mode)
 (which-key-setup-minibuffer)
-
-;; theme
-(defun onoff (theme1 theme2)
-    (disable-theme theme1)
-    (enable-theme theme2))
-
-(defun set-theme-time ()
-  (let ((light 'modus-operandi)
-        (dark 'modus-vivendi))
-	(load-theme light t t)
-	(load-theme dark t t)
-	(run-at-time "0:00" nil #'onoff light dark)
-	(run-at-time "8:00" nil #'onoff dark light)
-	(run-at-time "17:00" nil #'enable-theme dark)))
 
 (menu-bar-mode	 -1) ; turn off menu bar
 (tool-bar-mode   -1) ; turn off tool bar
@@ -79,7 +65,7 @@
 (setq projectile-switch-project-action #'projectile-dired)
 (counsel-projectile-mode)
 
-;; smartparens
+;; dashboard
 (setq dashboard-items '((recents . 5)
 						(projects . 5)))
 (setq dashboard-startup-banner 'official)
@@ -97,6 +83,10 @@
   (tide-setup)
   (tide-hl-identifier-mode +1))
 
+;; smartparens
+(require 'smartparens-config)
+(sp-use-smartparens-bindings)
+
 ;; python
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
@@ -109,6 +99,19 @@
 (setq sml/no-confirm-load-theme t)
 
 ;; custom fuctions
+(defun onoff (theme1 theme2)
+    (disable-theme theme1)
+    (enable-theme theme2))
+
+(defun set-theme-time ()
+  (let ((light 'modus-operandi)
+        (dark 'modus-vivendi))
+	(load-theme light t t)
+	(load-theme dark t t)
+	(run-at-time "0:00" nil #'onoff light dark)
+	(run-at-time "8:00" nil #'onoff dark light)
+	(run-at-time "17:00" nil #'enable-theme dark)))
+
 (defun comment-or-uncomment-region-or-line ()
     (interactive)
     (let (beg end)
@@ -124,14 +127,21 @@
   (other-window 1)
   (ansi-term "/home/peterz/.nix-profile/bin/fish"))
 
-;; custom bindings
-(global-set-key (kbd "C-c c") 'comment-or-uncomment-region-or-line)
-(global-set-key (kbd "C-c t") 'my-open-term)
+;; custom global bindings
+(global-set-key (kbd "C-c c") 'comment-or-uncomment-region-or-line) ; comment/uncomment
+(global-set-key (kbd "C-c t") 'my-open-term) ; run a terminal in a horizontal window
 (eval-after-load 'sly-mrepl
-   '(define-key sly-mrepl-mode-map (kbd "C-l")
+   '(define-key sly-mrepl-mode-map (kbd "C-l") ; C-l to clear sly REPL
       'sly-mrepl-clear-repl))
-(global-set-key (kbd "M-x") 'counsel-M-x) 
-(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x) ; counsel mx vs vanilla mx
+(global-set-key "\C-s" 'swiper) ; swiper to search files
+;; (global-set-key (kbd "C-c M-c") 'mc/edit-lines) ; multiple cursor support
+;; (define-key mc/keymap (kbd "<return>") nil) ; make space behave normally while using multiple cursors
+;; (global-set-key (kbd "C->") 'mc/mark-next-like-this) ; mark next line that matches the current line
+;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this) ; mark previous line that matches the current line
+;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this) ; mark all lines that match the current line
+;; (global-set-key (kdb "C-c M-c") 'set-rectangular-region-anchor) ; set rectangle anchor to move the cursors up and down
+
 
 ;; hooks
 (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
@@ -144,16 +154,18 @@
 				sly-mrepl-mode-hook
 				racket-repl-mode-hook))
   (add-hook mode (lambda() (display-line-numbers-mode 0))))
+
 (dolist (mode '(org-mode-hook
 				 markdown-mode-hook))
   (add-hook mode (lambda()
 				   (display-line-numbers-mode 0)
 				   (minimap-mode 0)
 				   (darkroom-mode))))
-(dolist (mode '(emacs-lisp-mode
-								racket-mode
-								lisp-mode
-								scheme-mode
+
+(dolist (mode '(emacs-lisp-mode-hook
+								racket-mode-hook
+								lisp-mode-hook
+								scheme-mode-hook
 								sly-mrepl-mode-hook
 								racket-repl-mode-hook))
 	(add-hook mode 'smartparens-strict-mode))
