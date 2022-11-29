@@ -44,6 +44,9 @@ set $menu fuzzel
 # Default wallpaper (more resolutions are available in /run/current-system/sw/share/backgrounds/sway/)
 output * bg $HOME/Pictures/Wallpapers/Sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
+set $wallpapers_path $HOME/Pictures/Wallpapers/Sway
+output * bg `find $wallpapers_path -type f | shuf -n 1` fill
+
 
 output HDMI-A-1 resolution 1920x1080 position 0,0
 output eDP-1 resolution 1920x1080 position 1920,0

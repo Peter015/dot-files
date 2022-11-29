@@ -10,6 +10,8 @@
 (define (exec param)
   (system(string-append-immutable "riverctl " "spawn " param))) ; -> uses riverctl to launch applications
 
+'(1 2 3 4 5 6 7 8 9)
+
 (define menu "fuzzel") ; -> set the menu variable to fuzzel launcher
 (define term "footclient") ; -> set the terminal to foot client: foot server should be autostarted
 (define wlogout "wlogout")
@@ -19,7 +21,12 @@
 (exec "mako") ; notifications
 ;; (exec "kanshi") ; outputs
 (exec "waybar") ; status bar
+(exec "swaybg -o * -i ~/Pictures/Wallpapers/Sway/2125736.png -m fill")
 
 ;; keybindings
 (bind "Super" "Return" term)
 (bind "Super" "e" wlogout)
+(bind "Super" "d" menu)
+
+;; workspaces
+
