@@ -162,12 +162,11 @@
 				   (minimap-mode 0)
 				   (darkroom-mode))))
 
-(dolist (mode '(emacs-lisp-mode-hook
+(dolist (mode '(sly-mrepl-mode-hook
+								racket-repl-mode-hook
 								racket-mode-hook
 								lisp-mode-hook
-								scheme-mode-hook
-								sly-mrepl-mode-hook
-								racket-repl-mode-hook))
+								emacs-lisp-mode-hook))
 	(add-hook mode 'smartparens-strict-mode))
 
 (add-hook 'prog-mode-hook 'minimap-mode t)
