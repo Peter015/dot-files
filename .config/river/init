@@ -2,15 +2,14 @@
 #lang racket
 
 ;; variables and functions
-(define (bind key1 key2 action)
-  (let([command (string-append-immutable "riverctl " "map " "normal " key1 " " key2 " " "Spawn " action)])
+(define (bind mod whichkey action)
+  (let([command (string-append-immutable "riverctl  map  normal"  mod  whichkey "spawn"  action)])
     (lambda()
       (system command))))
 
 (define (exec param)
   (system(string-append-immutable "riverctl " "spawn " param))) ; -> uses riverctl to launch applications
 
-'(1 2 3 4 5 6 7 8 9)
 
 (define menu "fuzzel") ; -> set the menu variable to fuzzel launcher
 (define term "footclient") ; -> set the terminal to foot client: foot server should be autostarted
@@ -21,7 +20,7 @@
 (exec "mako") ; notifications
 ;; (exec "kanshi") ; outputs
 (exec "waybar") ; status bar
-(exec "swaybg -o * -i ~/Pictures/Wallpapers/Sway/2125736.png -m fill")
+(exec "swaybg -i ~/Pictures/Wallpapers/Sway/Sway_Wallpaper_Blue_1920x1080.png")
 
 ;; keybindings
 (bind "Super" "Return" term)
@@ -29,4 +28,9 @@
 (bind "Super" "d" menu)
 
 ;; workspaces
-
+(let ((workspaces '(1 2 3 4 5 6 7 8 9)))
+  (for ([i workspaces])
+    (print i)
+    (let ((tag_number
+           (system(1 << ($i - 1)))))
+      (string-append-immutable "riverctl map normal Super " (string i) " set-focused-tags" (string all_tags)))))
