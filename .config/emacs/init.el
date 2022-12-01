@@ -93,7 +93,7 @@
 
 ;; define when to open certain mode
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)
-			 '("\\.php\\'" . php-mode))
+						 '("\\.php\\'" . php-mode))
 
 ;; modeline
 (setq sml/no-confirm-load-theme t)
@@ -166,7 +166,8 @@
 								racket-repl-mode-hook
 								racket-mode-hook
 								lisp-mode-hook
-								emacs-lisp-mode-hook))
+								emacs-lisp-mode-hook
+								yuck-mode-hook))
 	(add-hook mode 'smartparens-strict-mode))
 
 (add-hook 'prog-mode-hook 'minimap-mode t)

@@ -80,8 +80,7 @@
                 smart-mode-line
                 auto-compile
                 multiple-cursors
-                org-bullets
-                org-variable-pitch
+                yuck-mode
             ])
         );
     };

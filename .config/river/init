@@ -1,36 +1,62 @@
 #!/usr/bin/env racket
 #lang racket
 
-;; variables and functions
-(define (bind mod whichkey action)
-  (let([command (string-append-immutable "riverctl  map  normal"  mod  whichkey "spawn"  action)])
-    (lambda()
-      (system command))))
-
-(define (exec param)
-  (system(string-append-immutable "riverctl " "spawn " param))) ; -> uses riverctl to launch applications
-
-
-(define menu "fuzzel") ; -> set the menu variable to fuzzel launcher
-(define term "footclient") ; -> set the terminal to foot client: foot server should be autostarted
-(define wlogout "wlogout")
-
-;; autostart
-(exec "foot --server") ; autostart foot server
-(exec "mako") ; notifications
-;; (exec "kanshi") ; outputs
-(exec "waybar") ; status bar
-(exec "swaybg -i ~/Pictures/Wallpapers/Sway/Sway_Wallpaper_Blue_1920x1080.png")
+;;; variables and functions:
 
 ;; keybindings
-(bind "Super" "Return" term)
-(bind "Super" "e" wlogout)
-(bind "Super" "d" menu)
+(define (bind mod whichkey action)
+  (let([command (string-append-immutable "riverctl map normal "  mod " " whichkey " spawn "  action)])
+    (system command)))
 
-;; workspaces
-(let ((workspaces '(1 2 3 4 5 6 7 8 9)))
-  (for ([i workspaces])
-    (print i)
-    (let ((tag_number
-           (system(1 << ($i - 1)))))
-      (string-append-immutable "riverctl map normal Super " (string i) " set-focused-tags" (string all_tags)))))
+;; execute a program on startup
+(define (exec program)
+  (let ([command (string-append-immutable "riverctl spawn  " program)])
+    (system command))) ; -> uses riverctl to launch applications
+
+;; workspaces: 
+(define (setup-workspaces)
+  (let ((tags '(1 2 3 4 5 6 7 8 9)))
+    (map
+     (lambda(item)
+           (let ((tag_number (arithmetic-shift 1 (- item 1))))
+             (let((command (string-append-immutable "riverctl map normal Super " (format "~v" item) " set focused tag " (format "~v" tag_number))))
+               (print command)
+               (system command))))
+     tags)))
+    
+    
+    ;; (for ([i tags])
+      ;; (let ((tag_number
+             ;; (arithmetic-shift 1 (- i 1))))
+        ;; (system(string-append-immutable "riverctl map normal Super " (format "~v" i) " set focused tag " (format "~v" tag_number)))))))
+
+;; print that a program has been started after the command to start it. TODO: Actually verify a command is running
+(define (confirm program)
+  (print(string-append-immutable program " started succesfully")))
+
+;; variables for: mod key, launch menu, and terminal
+(define modkey "Super") ; -> set the modkey to super key
+(define menu "fuzzel") ; -> set the menu variable to fuzzel launcher
+(define term "footclient") ; -> set the terminal to foot client: foot server should be autostarted
+
+;;; autostart function:
+(define (startup)
+  (exec "foot --server") ; -> autostart foot server
+  (confirm "foot server\n")
+  (exec "mako") ; -> notifications
+  (confirm "mako\n")
+  ;; (exec "kanshi") ; -> outputs
+  (exec "waybar") ; -> status bar
+  (confirm "waybar\n")
+  ;; start river tiler to tile windows
+  (exec "rivertile")
+  (confirm "rivertile\n")
+  (system "riverctl output-layout rivertile")
+  ;;; keybindings:
+  (bind "Super" "Return" term) ; -> launch terminal
+  (bind "Super+Shift" "e" "wlogout") ; -> logout
+  (bind modkey "D" menu) ; -> app launcher
+  (bind modkey "E" "emacs")
+  (setup-workspaces)) ; -> emacs
+
+(startup)
