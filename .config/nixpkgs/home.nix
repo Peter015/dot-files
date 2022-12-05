@@ -39,6 +39,9 @@
 
             # dot-files alias
             config = "git --git-dir=/home/peterz/.cfg/ --work-tree=~";
+            
+            # Element
+            msg = "flatpak run im.riot.Riot --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer --ozone-platform=wayland";
         };
     };
 
@@ -54,11 +57,9 @@
                 all-the-icons
                 tide
                 flycheck
-                monokai-pro-theme
                 smartparens
                 rainbow-delimiters
                 highlight-indent-guides
-                php-mode
                 sly
                 dashboard
                 company
@@ -74,12 +75,10 @@
                 anaconda-mode
                 company-anaconda
                 minimap
-                undo-tree
                 darkroom
                 racket-mode
                 smart-mode-line
                 auto-compile
-                multiple-cursors
                 yuck-mode
             ])
         );

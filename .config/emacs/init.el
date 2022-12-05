@@ -1,10 +1,11 @@
+
 ;; Packages installed via Nix when possible, otherwise use-package is used
 ;; byte compile
 (setq load-prefer-newer t)
 (auto-compile-on-save-mode)
 
 ;; Speed up startup -- undone in a Hook at end of file
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold 1000000000)
 (defvar startup/file-name-handler-alist file-name-handler-alist) ; used later in the hook to reset file-name-handler-alist
 (setq file-name-handler-alist nil)
 
@@ -37,18 +38,16 @@
 (prefer-coding-system 'utf-8)
 
 ;; using tabs to indent and not spaces
-(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'c-basic-offset    'tab-width)
 (defvaralias 'ruby-indent-level 'tab-width)
 (defvaralias 'sgml-basic-offset 'tab-width)
 
 ;; global modes
 (column-number-mode)
 (global-display-line-numbers-mode t)
-
-;; global modes
-(global-undo-tree-mode)
 (global-tree-sitter-mode)
 (global-flycheck-mode)
+(global-tab-line-mode t)
 
 ;; minimap
 (setq minimap-window-location 'right)
@@ -67,14 +66,13 @@
 
 ;; dashboard
 (setq dashboard-items '((recents . 5)
-						(projects . 5)))
+												(projects . 5)))
 (setq dashboard-startup-banner 'official)
 (dashboard-setup-startup-hook)
 (setq dashboard-set-heading-icons t
 	  dashboard-set-file-icons t
 	  dashboard-banner-logo-title
-        (format "Emacs ready with %d garbage collections."
-                (float-time (time-subtract after-init-time before-init-time)) gcs-done)
+        (format "Emacs ready with %d garbage collections" gcs-done)
 		dashboard-set-footer nil)
 
 ;; tide for typescript
@@ -97,6 +95,10 @@
 
 ;; modeline
 (setq sml/no-confirm-load-theme t)
+
+;; tabline
+(setq tab-line-new-button-show nil
+			tab-line-close-button-show nil)
 
 ;; custom fuctions
 (defun onoff (theme1 theme2)
@@ -133,15 +135,8 @@
 (eval-after-load 'sly-mrepl
    '(define-key sly-mrepl-mode-map (kbd "C-l") ; C-l to clear sly REPL
       'sly-mrepl-clear-repl))
-(global-set-key (kbd "M-x") 'counsel-M-x) ; counsel mx vs vanilla mx
+(global-set-key (kbd "M-x") 'counsel-M-x) ; counsel mx vs default mx
 (global-set-key "\C-s" 'swiper) ; swiper to search files
-;; (global-set-key (kbd "C-c M-c") 'mc/edit-lines) ; multiple cursor support
-;; (define-key mc/keymap (kbd "<return>") nil) ; make space behave normally while using multiple cursors
-;; (global-set-key (kbd "C->") 'mc/mark-next-like-this) ; mark next line that matches the current line
-;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this) ; mark previous line that matches the current line
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this) ; mark all lines that match the current line
-;; (global-set-key (kdb "C-c M-c") 'set-rectangular-region-anchor) ; set rectangle anchor to move the cursors up and down
-
 
 ;; hooks
 (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
@@ -150,13 +145,13 @@
 (add-hook 'racket-repl-mode-hook (lambda ()(local-set-key (kbd "C-l") 'racket-repl-clear-leaving-last-prompt)))
 
 (dolist (mode '(eshell-mode-hook
-				term-mode-hook
-				sly-mrepl-mode-hook
-				racket-repl-mode-hook))
+								term-mode-hook
+								sly-mrepl-mode-hook
+								racket-repl-mode-hook))
   (add-hook mode (lambda() (display-line-numbers-mode 0))))
 
 (dolist (mode '(org-mode-hook
-				 markdown-mode-hook))
+								markdown-mode-hook))
   (add-hook mode (lambda()
 				   (display-line-numbers-mode 0)
 				   (minimap-mode 0)
@@ -164,19 +159,17 @@
 
 (dolist (mode '(sly-mrepl-mode-hook
 								racket-repl-mode-hook
-								racket-mode-hook
 								lisp-mode-hook
-								emacs-lisp-mode-hook
-								yuck-mode-hook))
+								emacs-lisp-mode-hook))
 	(add-hook mode 'smartparens-strict-mode))
 
+(add-hook 'prog-mode-hook  'smartparens-mode)
 (add-hook 'prog-mode-hook 'minimap-mode t)
 (add-hook 'prog-mode-hook 'global-company-mode)
 (eval-after-load "company"
  '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
 (add-hook 'prog-mode-hook  'highlight-indent-guides-mode)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook  'smartparens-mode)
 
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 

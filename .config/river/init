@@ -2,10 +2,13 @@
 #lang racket
 
 ;;; variables and functions:
+;; application keybindings:
+(define (launch-bind mod whichkey app)
+  (let([command (string-append-immutable "riverctl map normal "  mod " " whichkey " spawn "  app)])
+    (system command)))
 
-;; keybindings
-(define (bind mod whichkey action)
-  (let([command (string-append-immutable "riverctl map normal "  mod " " whichkey " spawn "  action)])
+(define (action-bind mod whichkey action)
+  (let((command (string-append-immutable "riverctl map normal " mod " " whichkey " " action)))
     (system command)))
 
 ;; execute a program on startup
@@ -19,16 +22,11 @@
     (map
      (lambda(item)
            (let ((tag_number (arithmetic-shift 1 (- item 1))))
-             (let((command (string-append-immutable "riverctl map normal Super " (format "~v" item) " set focused tag " (format "~v" tag_number))))
-               (print command)
-               (system command))))
+             (system (string-append-immutable "riverctl map normal Super " (format "~v" item) " set-focused-tags " (format "~v" tag_number)))
+             (system (string-append-immutable "riverctl map normal Super+Shift " (format "~v" item) " set-view-tags " (format "~v" tag_number)))
+             (system (string-append-immutable "riverctl map normal Super+Control " (format "~v" item) " toggle-focused-tags " (format "~v" tag_number)))
+             (system (string-append-immutable "riverctl map normal Super+Shift+Control " (format "~v" item) " toggle-view-tags " (format "~v" tag_number)))))
      tags)))
-    
-    
-    ;; (for ([i tags])
-      ;; (let ((tag_number
-             ;; (arithmetic-shift 1 (- i 1))))
-        ;; (system(string-append-immutable "riverctl map normal Super " (format "~v" i) " set focused tag " (format "~v" tag_number)))))))
 
 ;; print that a program has been started after the command to start it. TODO: Actually verify a command is running
 (define (confirm program)
@@ -39,24 +37,24 @@
 (define menu "fuzzel") ; -> set the menu variable to fuzzel launcher
 (define term "footclient") ; -> set the terminal to foot client: foot server should be autostarted
 
-;;; autostart function:
+;; autostart function:
 (define (startup)
-  (exec "foot --server") ; -> autostart foot server
-  (confirm "foot server\n")
+  (exec "'foot -s'") ; -> autostart foot server
   (exec "mako") ; -> notifications
-  (confirm "mako\n")
   ;; (exec "kanshi") ; -> outputs
   (exec "waybar") ; -> status bar
-  (confirm "waybar\n")
   ;; start river tiler to tile windows
   (exec "rivertile")
-  (confirm "rivertile\n")
   (system "riverctl output-layout rivertile")
+  ;; setup workspaces
+  (setup-workspaces)
   ;;; keybindings:
-  (bind "Super" "Return" term) ; -> launch terminal
-  (bind "Super+Shift" "e" "wlogout") ; -> logout
-  (bind modkey "D" menu) ; -> app launcher
-  (bind modkey "E" "emacs")
-  (setup-workspaces)) ; -> emacs
+  (launch-bind "Super" "Return" term) ; -> launch terminal
+  (launch-bind "Super+Shift" "E" "wlogout") ; -> logout
+  (launch-bind modkey "D" menu) ; -> app launcher
+  (launch-bind modkey "E" "emacs") ; -> emacs
+  (action-bind "Super+Shift" "Q" "close")
+  (setup-workspaces))
 
+;;; run the startup function:
 (startup)

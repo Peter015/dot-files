@@ -42,8 +42,6 @@ set $menu fuzzel
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /run/current-system/sw/share/backgrounds/sway/)
-output * bg $HOME/Pictures/Wallpapers/Sway/Sway_Wallpaper_Blue_1920x1080.png fill
-
 set $wallpapers_path $HOME/Pictures/Wallpapers/Sway
 output * bg `find $wallpapers_path -type f | shuf -n 1` fill
 
@@ -104,7 +102,7 @@ exec swayidle -w \
     bindsym $mod+Shift+c reload
     
     # clear notifications
-    bindsym Ctrl+c exec makoctl dismiss -a
+    bindsym $mod+c exec makoctl dismiss -a
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -228,7 +226,7 @@ bindsym $mod+r mode "resize"
 bar {
     position bottom
     
-    status_command exec ~/.config/sway/bar.sh
+    status_command exec ~/.config/sway/bar.ksh
             
     colors {
         statusline #ffffff
