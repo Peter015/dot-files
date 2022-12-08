@@ -1,8 +1,10 @@
 #!/usr/bin/env racket
-#lang racket
+#lang racket/base
+(require racket/system)
+(require racket/list)
 
 ;;; variables and functions:
-;; application keybindings:
+;; keybindings:
 (define (launch-bind mod whichkey app)
   (let([command (string-append-immutable "riverctl map normal "  mod " " whichkey " spawn "  app)])
     (system command)))
@@ -11,14 +13,14 @@
   (let((command (string-append-immutable "riverctl map normal " mod " " whichkey " " action)))
     (system command)))
 
-;; execute a program on startup
+;; execute a program on startup:
 (define (exec program)
   (let ([command (string-append-immutable "riverctl spawn  " program)])
     (system command))) ; -> uses riverctl to launch applications
 
 ;; workspaces: 
 (define (setup-workspaces)
-  (let ((tags '(1 2 3 4 5 6 7 8 9)))
+  (let ((tags (range 1 10)))
     (map
      (lambda(item)
            (let ((tag_number (arithmetic-shift 1 (- item 1))))
@@ -29,8 +31,6 @@
      tags)))
 
 ;; print that a program has been started after the command to start it. TODO: Actually verify a command is running
-(define (confirm program)
-  (print(string-append-immutable program " started succesfully")))
 
 ;; variables for: mod key, launch menu, and terminal
 (define modkey "Super") ; -> set the modkey to super key

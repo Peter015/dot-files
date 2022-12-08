@@ -3,8 +3,13 @@
 {
     # Home Manager needs a bit of information about you and the
     # paths it should manage.
-    home.username = "peterz";
-    home.homeDirectory = "/home/peterz";
+    # home.username = "peterz";
+    # home.homeDirectory = "/home/peterz";
+
+    home = {
+      username = "peterz";
+      homeDirectory = "/home/peterz";
+    };
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -61,7 +66,6 @@
                 rainbow-delimiters
                 highlight-indent-guides
                 sly
-                dashboard
                 company
                 projectile
                 ivy
@@ -78,8 +82,8 @@
                 darkroom
                 racket-mode
                 smart-mode-line
-                auto-compile
                 yuck-mode
+                rust-mode
             ])
         );
     };
@@ -89,10 +93,7 @@
         userName = "Peter Zimmermann";
         userEmail = "pzimm30@gmail.com";
     };
-
-
-
-
+    
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
 }

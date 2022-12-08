@@ -1,13 +1,12 @@
-
 ;; Packages installed via Nix when possible, otherwise use-package is used
-;; byte compile
-(setq load-prefer-newer t)
-(auto-compile-on-save-mode)
-
 ;; Speed up startup -- undone in a Hook at end of file
 (setq gc-cons-threshold 1000000000)
 (defvar startup/file-name-handler-alist file-name-handler-alist) ; used later in the hook to reset file-name-handler-alist
 (setq file-name-handler-alist nil)
+
+;; startup message
+(message (format "Emacs ready in %.2f seconds with %d garbage collections."
+                 (float-time (time-subtract after-init-time before-init-time)) gcs-done))
 
 ;; Ivy
 (ivy-mode 1)
@@ -31,10 +30,13 @@
 		auto-compile-display-buffer nil
 		auto-compile-mode-line-counter t
 	  inferior-lisp-program "/run/current-system/sw/bin/sbcl"
-	  ruby-indent-tabs-mode t)
+	  ruby-indent-tabs-mode t
+		inhibit-startup-screen t)
 (setq-default cursor-type 'bar
 	      indent-tabs-mode t
-	      tab-width 2)
+	      tab-width 2
+				auto-fill-function nil
+				truncate-lines t)
 (prefer-coding-system 'utf-8)
 
 ;; using tabs to indent and not spaces
@@ -48,9 +50,12 @@
 (global-tree-sitter-mode)
 (global-flycheck-mode)
 (global-tab-line-mode t)
+(global-visual-line-mode 0)
+
 
 ;; minimap
 (setq minimap-window-location 'right)
+
 ;; enable cua mode
 (cua-mode t)
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
@@ -64,22 +69,15 @@
 (setq projectile-switch-project-action #'projectile-dired)
 (counsel-projectile-mode)
 
-;; dashboard
-(setq dashboard-items '((recents . 5)
-												(projects . 5)))
-(setq dashboard-startup-banner 'official)
-(dashboard-setup-startup-hook)
-(setq dashboard-set-heading-icons t
-	  dashboard-set-file-icons t
-	  dashboard-banner-logo-title
-        (format "Emacs ready with %d garbage collections" gcs-done)
-		dashboard-set-footer nil)
-
 ;; tide for typescript
 (defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (tide-hl-identifier-mode +1))
+	(interactive)
+	(tide-setup)
+	(flycheck-mode +1)
+	(setq flycheck-check-syntax-automatically '(save mode-enabled))
+	(eldoc-mode +1)
+	(tide-hl-identifier-mode +1)
+	(company-mode +1))
 
 ;; smartparens
 (require 'smartparens-config)
@@ -90,8 +88,8 @@
       python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
 
 ;; define when to open certain mode
-(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode)
-						 '("\\.php\\'" . php-mode))
+(append auto-mode-alist '(("\\.nix\\'" . nix-mode)
+                          ("\\.php\\'" . php-mode)))
 
 ;; modeline
 (setq sml/no-confirm-load-theme t)
@@ -110,9 +108,9 @@
         (dark 'modus-vivendi))
 	(load-theme light t t)
 	(load-theme dark t t)
-	(run-at-time "0:00" nil #'onoff light dark)
+	(run-at-time "0:00" nil #'enable-theme dark)
 	(run-at-time "8:00" nil #'onoff dark light)
-	(run-at-time "17:00" nil #'enable-theme dark)))
+	(run-at-time "17:00" nil #'onoff light dark)))
 
 (defun comment-or-uncomment-region-or-line ()
     (interactive)
@@ -138,7 +136,21 @@
 (global-set-key (kbd "M-x") 'counsel-M-x) ; counsel mx vs default mx
 (global-set-key "\C-s" 'swiper) ; swiper to search files
 
+;; hook to restore things to normal state
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold 800000
+                  file-name-handler-alist startup/file-name-handler-alist)))
+
 ;; hooks
+(add-hook 'prog-mode-hook 'minimap-mode t)
+(add-hook 'prog-mode-hook 'global-company-mode)
+(eval-after-load "company"
+ '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
+(add-hook 'prog-mode-hook  'highlight-indent-guides-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'smartparens-mode)
+
 (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
 (add-hook 'racket-mode-hook       'racket-repl)
 (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
@@ -151,46 +163,35 @@
   (add-hook mode (lambda() (display-line-numbers-mode 0))))
 
 (dolist (mode '(org-mode-hook
-								markdown-mode-hook))
+								markdown-mode-hook
+								dashboard-mode-hook))
   (add-hook mode (lambda()
 				   (display-line-numbers-mode 0)
 				   (minimap-mode 0)
 				   (darkroom-mode))))
 
+;; these two dont work and i cant figure out why
 (dolist (mode '(sly-mrepl-mode-hook
-								racket-repl-mode-hook
-								lisp-mode-hook
-								emacs-lisp-mode-hook))
-	(add-hook mode 'smartparens-strict-mode))
+                racket-repl-mode-hook
+                lisp-mode-hook
+                emacs-lisp-mode-hook))
+	(add-hook mode #'smartparens-strict-mode))
 
-(add-hook 'prog-mode-hook  'smartparens-mode)
-(add-hook 'prog-mode-hook 'minimap-mode t)
-(add-hook 'prog-mode-hook 'global-company-mode)
-(eval-after-load "company"
- '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
-(add-hook 'prog-mode-hook  'highlight-indent-guides-mode)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(dolist (mode '(typescript-mode-hook
+								nix-mode-hook
+								c-mode-hook
+								c++-mode-hook
+								python-mode-hook
+								racket-mode-hook))
+	(add-hook mode #'eglot-ensure))
+
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (add-hook 'before-save-hook      'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-(add-hook 'typescript-mode-hook 'eglot-ensure)
-(add-hook 'nix-mode-hook	      'eglot-ensure)
-(add-hook 'c-mode-hook          'eglot-ensure)
-(add-hook 'c++-mode-hook        'eglot-ensure)
-(add-hook 'python-mode-hook     'eglot-ensure)
-(add-hook 'racket-mode-hook     'eglot-ensure)
-
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-
-(add-hook 'emacs-startup-hook (lambda () (setq file-name-handler-alist startup/file-name-handler-alist)))
-(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000)))
-
-(add-hook 'after-init-hook 'dashboard-refresh-buffer)
 (add-hook 'after-init-hook #'set-theme-time)
 (add-hook 'after-init-hook #'sml/setup)
-
-(add-hook 'dashboard-mode-hook 'my/dashboard-banner)
