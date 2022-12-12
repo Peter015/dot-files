@@ -1,0 +1,69 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Source Code Pro", "Material Design Icons Desktop, Regular", "Iosevka Nerd Font Mono";
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: white;
+}
+
+#tags {
+	background-color: #000000;
+	margin: 5px;
+	margin-left: 10px;
+        margin-bottom: 0px;
+	border-radius: 20px;
+}
+#tags button {
+    padding: 5px 10px;
+    color: #c0caf5;
+}
+
+#tags button.focused {
+    color: #24283b;
+    background-color: #7aa2f7;
+    border-radius: 20px;
+}
+
+#tags button:hover {
+	background-color: #c0caf5;
+	color: #c0caf5;
+	border-radius: 20px;
+}
+
+#battery, #cpu, #memory, #pulseaudo, #clock {
+	background-color: #000000;
+	padding: 0px 10px;
+	margin: 5px 0px;
+        margin-bottom: 0px;
+}
+
+
+#cpu {
+  color: #1b609b;
+  border-radius: 20px 0px 0px 20px;
+}
+
+#battery {
+    color: #9ece6a;
+}
+
+#battery.charging {
+    color: #9ece6a;
+}
+
+#battery.warning:not(.charging) {
+    color: #8b0000;
+}
+
+#pulseaudio {
+	background-color: #000000;
+	padding: 0px 0px;
+	margin: 5px 0px;
+        margin-bottom: 0px;
+	color: #e0af68;
+}

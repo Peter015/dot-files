@@ -3,7 +3,12 @@
 (require racket/system)
 (require racket/list)
 
-;;; variables and functions:
+;;; global variables:
+(define modkey "Super") ; set the modkey to super key
+(define term "footclient") ; set the terminal to open
+(define menu "fuzzel") ; set the launch menu
+
+;; functions:
 ;; keybindings:
 (define (launch-bind mod whichkey app)
   (let([command (string-append-immutable "riverctl map normal "  mod " " whichkey " spawn "  app)])
@@ -16,9 +21,9 @@
 ;; execute a program on startup:
 (define (exec program)
   (let ([command (string-append-immutable "riverctl spawn  " program)])
-    (system command))) ; -> uses riverctl to launch applications
+    (system command))) ; uses riverctl to launch applications
 
-;; workspaces: 
+;; workspaces:
 (define (setup-workspaces)
   (let ((tags (range 1 10)))
     (map
@@ -30,29 +35,24 @@
              (system (string-append-immutable "riverctl map normal Super+Shift+Control " (format "~v" item) " toggle-view-tags " (format "~v" tag_number)))))
      tags)))
 
-;; print that a program has been started after the command to start it. TODO: Actually verify a command is running
 
-;; variables for: mod key, launch menu, and terminal
-(define modkey "Super") ; -> set the modkey to super key
-(define menu "fuzzel") ; -> set the menu variable to fuzzel launcher
-(define term "footclient") ; -> set the terminal to foot client: foot server should be autostarted
 
 ;; autostart function:
 (define (startup)
-  (exec "'foot -s'") ; -> autostart foot server
-  (exec "mako") ; -> notifications
-  ;; (exec "kanshi") ; -> outputs
-  (exec "waybar") ; -> status bar
+  (exec "'foot -s'") ; autostart foot server
+  (exec "mako") ; notifications
+  ;; (exec "kanshi") ; outputs
+  (exec "waybar") ; status bar
   ;; start river tiler to tile windows
   (exec "rivertile")
   (system "riverctl output-layout rivertile")
   ;; setup workspaces
   (setup-workspaces)
   ;;; keybindings:
-  (launch-bind "Super" "Return" term) ; -> launch terminal
-  (launch-bind "Super+Shift" "E" "wlogout") ; -> logout
-  (launch-bind modkey "D" menu) ; -> app launcher
-  (launch-bind modkey "E" "emacs") ; -> emacs
+  (launch-bind "Super" "Return" term) ; launch terminal
+  (launch-bind "Super+Shift" "E" "wlogout") ; logout
+  (launch-bind modkey "D" menu) ; app launcher
+  (launch-bind modkey "E" "emacs") ; emacs
   (action-bind "Super+Shift" "Q" "close")
   (setup-workspaces))
 
