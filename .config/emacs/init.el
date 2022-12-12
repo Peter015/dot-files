@@ -170,11 +170,11 @@
 				   (minimap-mode 0)
 				   (darkroom-mode))))
 
-;; these two dont work and i cant figure out why
 (dolist (mode '(sly-mrepl-mode-hook
                 racket-repl-mode-hook
                 lisp-mode-hook
-                emacs-lisp-mode-hook))
+                emacs-lisp-mode-hook
+								racket-mode-hook))
 	(add-hook mode #'smartparens-strict-mode))
 
 (dolist (mode '(typescript-mode-hook
