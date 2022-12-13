@@ -2,19 +2,19 @@
     "position": "top", 
     "height": 30,
     "modules-left": ["river/tags"],
-    "modules-right": ["cpu", "memory", "pulseaudio", "battery", "clock","custom/space"],
+    "modules-right": ["cpu", "memory", "pulseaudio", "battery", "clock", "custom/space"],
 	
 
     "river/tags": {
       "num-tags": 9
     },
 
-		"memory": {
+	"memory": {
     					"interval": 30,
     					"format": "{used:0.1f}G/{total:0.1f}G ({}% )"
-		},
+	},
 
-    "custom/space": {
+	"custom/space": {
       "format": " "
     },
 

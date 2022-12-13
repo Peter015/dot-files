@@ -44,8 +44,9 @@
   ;; (exec "kanshi") ; outputs
   (exec "waybar") ; status bar
   ;; start river tiler to tile windows
-  (exec "rivertile")
-  (system "riverctl output-layout rivertile")
+  ;; (exec "rivertile")
+  ;; (system "riverctl output-layout rivertile")
+  (system ("riverctl default-layout rivertile"))
   ;; setup workspaces
   (setup-workspaces)
   ;;; keybindings:

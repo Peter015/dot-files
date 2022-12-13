@@ -7,17 +7,18 @@
 }
 
 window#waybar {
-    background: transparent;
+    background: rgba(37, 37, 37, .9);
     color: white;
+		border-radius: 10% / 30%;
 }
 
 #tags {
-	background-color: #000000;
 	margin: 5px;
 	margin-left: 10px;
-        margin-bottom: 0px;
+  margin-bottom: 0px;
 	border-radius: 20px;
 }
+
 #tags button {
     padding: 5px 10px;
     color: #c0caf5;
@@ -36,10 +37,9 @@ window#waybar {
 }
 
 #battery, #cpu, #memory, #pulseaudo, #clock {
-	background-color: #000000;
 	padding: 0px 10px;
 	margin: 5px 0px;
-        margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 
@@ -61,9 +61,8 @@ window#waybar {
 }
 
 #pulseaudio {
-	background-color: #000000;
 	padding: 0px 0px;
 	margin: 5px 0px;
-        margin-bottom: 0px;
+  margin-bottom: 0px;
 	color: #e0af68;
 }
