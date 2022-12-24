@@ -59,7 +59,6 @@
                 tree-sitter
                 tree-sitter-langs
                 eglot
-                all-the-icons
                 tide
                 flycheck
                 smartparens
@@ -84,6 +83,11 @@
                 smart-mode-line
                 yuck-mode
                 rust-mode
+                tron-legacy-theme
+                monokai-pro-theme
+                jazz-theme
+                php-mode
+                god-mode
             ])
         );
     };

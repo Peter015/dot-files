@@ -46,7 +46,8 @@
   ;; start river tiler to tile windows
   ;; (exec "rivertile")
   ;; (system "riverctl output-layout rivertile")
-  (system ("riverctl default-layout rivertile"))
+  (system "riverctl default-layout rivertile")
+  (system "rivertile -view-padding 6 -outer-padding 6")
   ;; setup workspaces
   (setup-workspaces)
   ;;; keybindings:

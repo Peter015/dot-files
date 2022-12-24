@@ -23,6 +23,17 @@
 ;; set font
 (set-face-attribute 'default nil :family "IBM Plex Mono")
 
+;; god mode for global editing
+(setq god-mode-enable-function-key-translation nil)
+(god-mode)
+(global-set-key (kbd "<escape>") #'god-local-mode)
+
+(defun my-god-mode-update-cursor-type ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+
+(add-hook 'post-command-hook (lambda()
+															 (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar))))
+
 ;; other settings
 (setq visible-bell t
 	  backup-directory-alist `(("." . "~/Backups/emacs/"))
@@ -32,7 +43,7 @@
 	  inferior-lisp-program "/run/current-system/sw/bin/sbcl"
 	  ruby-indent-tabs-mode t
 		inhibit-startup-screen t)
-(setq-default cursor-type 'bar
+(setq-default cursor-type 'box
 	      indent-tabs-mode t
 	      tab-width 2
 				auto-fill-function nil
@@ -104,8 +115,8 @@
     (enable-theme theme2))
 
 (defun set-theme-time ()
-  (let ((light 'modus-operandi)
-        (dark 'modus-vivendi))
+ (let ((light 'modus-operandi)
+       (dark 'modus-vivendi))
 	(load-theme light t t)
 	(load-theme dark t t)
 	(run-at-time "0:00" nil #'enable-theme dark)
@@ -195,3 +206,16 @@
 
 (add-hook 'after-init-hook #'set-theme-time)
 (add-hook 'after-init-hook #'sml/setup)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+	 '("24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
